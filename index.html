@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <title>Физикийн Хичээл</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      color: #1a202c;
+      display: flex;
+    }
+
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #1a365d;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      font-size: 20px;
+      z-index: 1001;
+      border-radius: 4px;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      background: linear-gradient(135deg, #1a365d, #2c5282);
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    nav.hidden {
+      transform: translateX(-100%);
+    }
+
+    nav h3 {
+      text-align: center;
+      margin: 0 0 20px;
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 10px 14px;
+      margin-bottom: 6px;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .has-submenu .submenu {
+      display: none;
+      padding-left: 14px;
+      margin-top: 6px;
+      border-left: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .has-submenu.open > .submenu {
+      display: block;
+    }
+
+    .submenu .has-submenu .submenu {
+      border-left: 2px dashed rgba(255,255,255,0.2);
+      padding-left: 12px;
+    }
+
+    main {
+      margin-left: 260px;
+      padding: 32px;
+      background: white;
+      min-height: 100vh;
+      box-sizing: border-box;
+      flex-grow: 1;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        transform: translateX(-100%);
+      }
+
+      nav.show {
+        transform: translateX(0);
+      }
+
+      main {
+        margin-left: 0;
+        padding: 20px;
+      }
+    }
+  </style>
+
+  <script>
+    function loadPage(pageName) {
+      const main = document.getElementById('main-content');
+      main.innerHTML = "⏳ Ачаалж байна...";
+      fetch(`${pageName}.html`)
+        .then(res => res.ok ? res.text() : Promise.reject("⚠️ Хуудас олдсонгүй!"))
+        .then(html => main.innerHTML = html)
+        .catch(err => main.innerHTML = err);
+    }
+
+    function toggleSubmenu(el) {
+      el.parentElement.classList.toggle('open');
+    }
+
+    function toggleMenu() {
+      document.querySelector('nav').classList.toggle('show');
+    }
+
+    window.onload = () => loadPage('home');
+  </script>
+</head>
+
+<body>
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <nav>
+    <h3 style="text-align: center; color: white;">📚 Номнууд</h3>
+    <a class="nav-link" onclick="loadPage('home')">🏠 Нүүр</a>
+
+    <div class="has-submenu">
+      <a class="nav-link" onclick="toggleSubmenu(this)">🧲 Иродов ▾</a>
+      <div class="submenu">
+    
+        <!-- Глава 1 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">1. Кинематикийн үндэс ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov1_1')">1.1 Цэгийн кинематик</a>
+            <a class="nav-link" onclick="loadPage('irodov1_2')">1.2 Хатуу биеийн кинематик</a>
+            <a class="nav-link" onclick="loadPage('irodov1_3')">1.3 Харьцангуй хөдөлгөөн</a>
+            <a class="nav-link" onclick="loadPage('irodov1_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 2 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">2. Динамикийн үндсэн тэгшитгэл ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov2_1')">2.1 Инерциал тооллын систем</a>
+            <a class="nav-link" onclick="loadPage('irodov2_2')">2.2 Ньютоны хууль</a>
+            <a class="nav-link" onclick="loadPage('irodov2_3')">2.3 Хүчнүүд</a>
+            <a class="nav-link" onclick="loadPage('irodov2_4')">2.4 Динамикийн Үндсэн тэгшитгэл</a>
+            <a class="nav-link" onclick="loadPage('irodov2_5')">2.5 Инерцийн хүч</a>
+            <a class="nav-link" onclick="loadPage('irodov2_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 3 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">3. Хөдөлгөөний тоо хэмжээ хадгалагдах хууль ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov3_1')">3.1 Хадгалах хуулийн тухай</a>
+            <a class="nav-link" onclick="loadPage('irodov3_2')">3.2 Системийн импульс</a>
+            <a class="nav-link" onclick="loadPage('irodov3_3')">3.3 Импульс хадгалах хууль</a>
+            <a class="nav-link" onclick="loadPage('irodov3_4')">3.4 Массын төв</a>
+            <a class="nav-link" onclick="loadPage('irodov3_5')">3.5 Массаа өөрчилж буй бие</a>
+            <a class="nav-link" onclick="loadPage('irodov3_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 4 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">4. Энерги хадгалах хууль ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov4_1')">4.1 Ажил ба чадал</a>
+            <a class="nav-link" onclick="loadPage('irodov4_2')">4.2 Потенциал энерги</a>
+            <a class="nav-link" onclick="loadPage('irodov4_3')">4.3 Талбайн дэх механик энерги</a>
+            <a class="nav-link" onclick="loadPage('irodov4_4')">4.4 Системийн энерги</a>
+            <a class="nav-link" onclick="loadPage('irodov4_5')">4.5 Энерги хадгалах хууль</a>
+            <a class="nav-link" onclick="loadPage('irodov4_6')">4.6 Хоёр бөөмийн мөргөлдөөн</a>
+            <a class="nav-link" onclick="loadPage('irodov4_7')">4.7 Шингэний механик</a>
+            <a class="nav-link" onclick="loadPage('irodov4_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 5 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">5. Импульсын момент хадгалах хууль ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov5_1')">5.1 Момент ба момент хүч</a>
+            <a class="nav-link" onclick="loadPage('irodov5_2')">5.2 Импульсын момент хадгалах хууль</a>
+            <a class="nav-link" onclick="loadPage('irodov5_3')">5.3 Дотоод момент</a>
+            <a class="nav-link" onclick="loadPage('irodov5_4')">5.4 Хатуу биеийн динамик</a>
+            <a class="nav-link" onclick="loadPage('irodov5_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 6 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">6. Хэлбэлзэл ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov6_1')">6.1 Гармоник хэлбэлзэл</a>
+            <a class="nav-link" onclick="loadPage('irodov6_2')">6.2 Нийлбэр хэлбэлзэл</a>
+            <a class="nav-link" onclick="loadPage('irodov6_3')">6.3 Сааралттай хэлбэлзэл</a>
+            <a class="nav-link" onclick="loadPage('irodov6_4')">6.4 Албадан хэлбэлзэл</a>
+            <a class="nav-link" onclick="loadPage('irodov6_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 7 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">7. Харьцангуйн тусгай онолын кинематик ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov7_1')">7.1 Харьцангуйн оршил</a>
+            <a class="nav-link" onclick="loadPage('irodov7_2')">7.2 Эйнштейний постулат</a>
+            <a class="nav-link" onclick="loadPage('irodov7_3')">7.3 Цагийн саатал ба уртын агшилт</a>
+            <a class="nav-link" onclick="loadPage('irodov7_4')">7.4 Лоренц хувиралт</a>
+            <a class="nav-link" onclick="loadPage('irodov7_5')">7.5 Лоренц хувиралтын үр дагавар</a>
+            <a class="nav-link" onclick="loadPage('irodov7_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+        <!-- Глава 8 -->
+        <div class="has-submenu">
+          <a class="nav-link" onclick="toggleSubmenu(this)">8. Харьцангуйн тусгай онолын динамик ▾</a>
+          <div class="submenu">
+            <a class="nav-link" onclick="loadPage('irodov8_1')">8.1 Харьцангуйн импульс</a>
+            <a class="nav-link" onclick="loadPage('irodov8_2')">8.2 Үндсэн тэгшитгэл</a>
+            <a class="nav-link" onclick="loadPage('irodov8_3')">8.3 Масс ба энергийн хамаарал</a>
+            <a class="nav-link" onclick="loadPage('irodov8_4')">8.4 Энерги ба импульсын хамаарал</a>
+            <a class="nav-link" onclick="loadPage('irodov8_5')">8.5 Харьцангуйн бөөмсийн систем</a>
+            <a class="nav-link" onclick="loadPage('irodov8_tasks')">Даалгавар</a>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+
+    <a class="nav-link" onclick="loadPage('contact')">📞 Холбоо барих</a>
+  </nav>
+
+  <main id="main-content">
+    <!-- Агуулга энд ачаалагдана -->
+  </main>
+</body>
+</html>
